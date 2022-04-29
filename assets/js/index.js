@@ -63,6 +63,45 @@ class Player {
 }
 
 
+class Invader {
+    constructor() {
+        this.velocity = {
+            x : 0,
+            y : 0,
+        }
+
+        const image = new Image();
+        image.src = "/assets/img/invader.png";
+        image.onload = () => 
+        {
+            const scale = 1;
+            this.image = image;
+            this.width = image.width * scale;
+            this.height = image.height * scale;
+            
+            this.position = {
+                x : canvas.width / 2 - this.width / 2,
+                y : canvas.height / 2,
+            }
+        }
+    }
+
+    draw() {
+        
+        c.drawImage(this.image,this.position.x,this.position.y,this.width, this.height);
+        
+    }
+
+    update ()
+    {
+        if(this.image){
+            this.draw();
+            this.position.x += this.velocity.x;
+            this.position.y += this.velocity.y;
+        }
+    }
+}
+
 //Create projectile
 class Projectile
 {
@@ -94,6 +133,7 @@ class Projectile
 
 const projectile = [];
 
+const invader = new Invader ();
 
 const player = new Player();
 
@@ -116,14 +156,15 @@ function animate ()
     requestAnimationFrame(animate);
     c.fillStyle = "black";
     c.fillRect(0,0,canvas.width, canvas.height);
+    invader.update();
     player.update();
-    projectile.forEach((projectile, index) => 
+    projectile.forEach(( projectile , index) => 
         {
             if (projectile.position.y + projectile.radius <= 0)
             {
-                setTimeout(() => {
-                    projectile.splice(index, 1)
-                }, 0);
+                // setTimeout(() => {
+                //     projectile.splice(index, 1)
+                // }, 0);
             }else 
             {
                 projectile.update();
