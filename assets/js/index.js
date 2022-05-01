@@ -155,7 +155,7 @@ class Grid
         if(this.position.x + this.width >= canvas.width || this.position.x <= 0)
         {
             this.velocity.x = -this.velocity.x;
-            this.velocity.y = 30;
+            this.velocity.y = 20;
         }
     }
 }
@@ -192,7 +192,7 @@ class Projectile
 const projectile = [];
 
 const player = new Player();
-const grids = [new Grid ()];
+const grids = [];
 const keys = 
 {
     a: {
@@ -206,6 +206,10 @@ const keys =
     }
 }
 
+let frames = 0;
+let randomInterval = Math.floor((Math.random() * 500) + 500);
+
+console.log(randomInterval);
 
 function animate ()
 {
@@ -250,7 +254,20 @@ function animate ()
         player.velocity.x = 0;
         player.rotation = 0;
     }
+
+    console.log(frames);
+    //spawing enemies
+    if (frames % randomInterval === 0)
+    {
+        grids.push(new Grid());
+        randomInterval = Math.floor(Math.random()* 500 + 500);
+        frames = 0;
+        console.log(randomInterval);
+    }
+    frames++;
 }
+
+
 animate();
 
 //para hacer moverse al jugador necesitamos el uso de eventos 
