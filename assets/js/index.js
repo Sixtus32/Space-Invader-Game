@@ -231,7 +231,7 @@ function animate ()
         }
     )
 
-    grids.forEach((grid) => {
+    grids.forEach((grid, gridIndex) => {
         grid.update();
         grid.invader.forEach((invader, i) => {
                 invader.update({ velocity: grid.velocity });
@@ -254,9 +254,27 @@ function animate ()
                                 const projectileFound = projectile.find((projectile2) => projectile2 === projectiles
                                 )
 
+                                // remove invader & projectile
                                 if (invaderFound && projectileFound){
                                 grid.invader.splice(i, 1);
                                 projectile.splice(j, 1);
+
+                                    if (grid.invader.length > 0 )
+                                    {
+                                        const firstInvader = grid.invader[0];
+                                        const lastInvader = grid.invader[grid.invader.length - 1];
+
+                                        grid.width = 
+                                        lastInvader.position.x - 
+                                        firstInvader.position.x + 
+                                        lastInvader.width;
+
+                                        grid.position.x = firstInvader.position.x;
+                                    }else 
+                                    {
+                                        grids.splice(gridIndex, 1);
+                                    }
+
                                 }
                             }, 0)
                         }
