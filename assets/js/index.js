@@ -168,7 +168,7 @@ class Projectile
         this.position = position;
         this.velocity = velocity;
 
-        this.radius = 3;
+        this.radius = 4;
     } 
 
     draw ()
@@ -231,11 +231,36 @@ function animate ()
         }
     )
 
-    grids.forEach(grid => {
-        grid.update()
-        grid.invader.forEach(invader => 
-            {
-                invader.update({velocity: grid.velocity});
+    grids.forEach((grid) => {
+        grid.update();
+        grid.invader.forEach((invader, i) => {
+                invader.update({ velocity: grid.velocity });
+
+                projectile.forEach((projectiles, j) => {
+
+                        if (projectiles.position.y - projectiles.radius <= 
+                                invader.position.y + invader.height && 
+                            projectiles.position.x + projectiles.radius >= 
+                                invader.position.x && 
+                            projectiles.position.x - projectiles.radius <= 
+                                invader.position.x  + invader.width && 
+                            projectiles.position.y + projectiles.radius >= 
+                                invader.position.y
+                            ) {
+                            setTimeout(() => 
+                            {
+                                const invaderFound = grid.invader.find((invader2) => invader2 === invader);
+
+                                const projectileFound = projectile.find((projectile2) => projectile2 === projectiles
+                                )
+
+                                if (invaderFound && projectileFound){
+                                grid.invader.splice(i, 1);
+                                projectile.splice(j, 1);
+                                }
+                            }, 0)
+                        }
+                    })
             })
     })
 
