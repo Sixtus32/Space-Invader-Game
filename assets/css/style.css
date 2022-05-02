@@ -1,11 +1,20 @@
 body 
 {
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #232323;
+}
+
+.container
+{
+    position: relative;
 }
 
 .score 
 {
-    position: fixed;
+    position: absolute;
     z-index: 100;
     color: #fff;
     margin-left: 1rem;
