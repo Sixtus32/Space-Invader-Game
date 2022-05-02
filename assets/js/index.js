@@ -94,7 +94,7 @@ class Projectile
 //Create new Class 
 class Particle
 {
-    constructor ({position, velocity, radius, color})
+    constructor ({position, velocity, radius, color, fades})
     {
         this.position = position;
         this.velocity = velocity;
@@ -102,6 +102,7 @@ class Particle
         this.radius = radius;
         this.color = color;
         this.opacity = 1;
+        this.fades = fades;
     } 
 
     draw ()
@@ -124,7 +125,7 @@ class Particle
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
-        this.opacity -= .01;
+        if(this.fades) this.opacity -= 0.01;
     }
 }
 //Create projectile from your enemies
@@ -289,7 +290,28 @@ const keys =
 let frames = 0;
 let randomInterval = Math.floor((Math.random() * 500) + 500);
 
-function createParticles({object, color})
+            for(let i = 0; i < 100; i++){
+            particles.push(new Particle(
+            {  
+            position : {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            },
+
+            velocity : 
+            {
+            x : 0,
+            y : 2,
+            },
+
+            radius : Math.random() * 2,
+
+            color: "white",
+        })
+    )
+}
+
+function createParticles({object, color, fades})
 {
         for(let i = 0; i < 15; i++){
             particles.push(new Particle(
@@ -309,6 +331,7 @@ function createParticles({object, color})
         radius : Math.random() * 3,
 
         color: color || '#BAA0DE',
+        fades : true,
     })
         )
     }
@@ -322,6 +345,11 @@ function animate ()
     player.update();
     particles.forEach((particle, i) => 
         {
+            if(particle.position.y - particle.radius >= canvas.height)
+            {
+                particle.position.x = Math.random() * canvas.width;
+                particle.position.y = -particle.radius;
+            }
             if(particle.opacity <= 0)
             {
                 setTimeout(() => 
@@ -367,6 +395,7 @@ function animate ()
                 {
                     object: player,
                     color: "white",
+                    fades : true,
                 })
         }
     });
@@ -423,6 +452,7 @@ function animate ()
 
                                 createParticles({
                                     object : invader,
+                                    fades : true,
                                 })
                                 grid.invader.splice(i, 1);
                                 projectile.splice(j, 1);
