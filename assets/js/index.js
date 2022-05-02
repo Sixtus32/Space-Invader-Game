@@ -1,7 +1,7 @@
 console.log('Hola Sixtus');
 
 const canvas = document.querySelector('canvas');
-
+const score = document.getElementById('scoreElement');
 const c = canvas.getContext('2d');
 
 canvas.width = innerWidth;
@@ -300,6 +300,8 @@ let game =
     active : true,
 }
 
+let scoreRecord = 0;
+
             for(let i = 0; i < 100; i++){
             particles.push(new Particle(
             {  
@@ -467,7 +469,8 @@ function animate ()
 
                                 // remove invader & projectile
                                 if (invaderFound && projectileFound){
-
+                                    scoreRecord +=100;
+                                    score.textContent = scoreRecord; 
                                 createParticles({
                                     object : invader,
                                     fades : true,
